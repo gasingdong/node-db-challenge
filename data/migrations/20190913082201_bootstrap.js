@@ -7,10 +7,7 @@ exports.up = knex => {
 
       tbl.string('description');
 
-      tbl
-        .boolean('completed')
-        .notNullable()
-        .defaultTo(false);
+      tbl.boolean('completed').defaultTo(false);
     })
     .createTable('tasks', tbl => {
       tbl.increments();
@@ -19,10 +16,7 @@ exports.up = knex => {
 
       tbl.string('notes');
 
-      tbl
-        .boolean('completed')
-        .notNullable()
-        .defaultTo(false);
+      tbl.boolean('completed').defaultTo(false);
 
       tbl
         .integer('project_id')
