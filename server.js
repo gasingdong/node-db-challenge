@@ -1,8 +1,11 @@
 const express = require('express');
+const ResourceRouter = require('./api/resources/resources-router');
 
 const server = express();
 
 server.use(express.json());
+
+server.use('/api/resources', ResourceRouter);
 
 const errorHandler = (err, req, res, next) => {
   if (res.headersSent) {
