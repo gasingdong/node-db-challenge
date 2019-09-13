@@ -40,7 +40,8 @@ router
       const result = await Projects.addProject({
         name,
         description,
-        completed,
+        // Check explicitly against undefined to avoid database inputting null value
+        completed: completed !== undefined && completed,
       });
       res.status(201).json(result);
     } catch (err) {
