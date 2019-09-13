@@ -6,6 +6,29 @@ const router = express.Router();
 
 router.use(express.json());
 
+// Validation for task ID
+const validateTaskId = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (Number.isNaN(Number(id)) || !Number.isFinite(Number(id))) {
+    res.status(400).json({ error: 'Invalid id.' });
+    return;
+  }
+
+  try {
+    const currentTask = await Tasks.getTaskById(id);
+
+    if (currentTask) {
+      req.task = currentTask;
+      next();
+    } else {
+      res.status(404).json({ error: `Task with id ${id} does not exist.` });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 // Validation for task data
 const validateTask = (req, res, next) => {
   const { body } = req;
@@ -48,6 +71,18 @@ router
         project_id,
       });
       res.status(201).json(result);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+router
+  .route('/:id')
+  .all(validateTaskId)
+  .get((req, res, next) => {
+    try {
+      const { task } = req;
+      res.status(200).json(task);
     } catch (err) {
       next(err);
     }
