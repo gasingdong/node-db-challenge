@@ -7,7 +7,10 @@ exports.up = knex => {
 
       tbl.string('description');
 
-      tbl.boolean('completed').notNullable();
+      tbl
+        .boolean('completed')
+        .notNullable()
+        .defaultTo(false);
     })
     .createTable('tasks', tbl => {
       tbl.increments();
@@ -16,7 +19,10 @@ exports.up = knex => {
 
       tbl.string('notes');
 
-      tbl.boolean('completed').notNullable();
+      tbl
+        .boolean('completed')
+        .notNullable()
+        .defaultTo(false);
 
       tbl
         .integer('project_id')
@@ -32,8 +38,8 @@ exports.up = knex => {
 
       tbl
         .string('name')
-        .notNullable()
-        .unique();
+        .unique()
+        .notNullable();
 
       tbl.string('description');
     })
