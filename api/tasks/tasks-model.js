@@ -25,7 +25,22 @@ const addTask = task => {
   return db('tasks').insert(task);
 };
 
+const getTasksByProjectId = id => {
+  return db('tasks')
+    .where({ project_id: id })
+    .select('id', 'description', 'notes', 'completed')
+    .then(tasks =>
+      tasks.map(task => {
+        return {
+          ...task,
+          completed: task.completed > 0,
+        };
+      })
+    );
+};
+
 module.exports = {
   getTasks,
   addTask,
+  getTasksByProjectId,
 };
